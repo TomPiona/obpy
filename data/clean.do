@@ -7,6 +7,9 @@ tab a_hga, gen(cat_edu)
 tab a_mjind, gen(cat_industry)
 gen log_wage = log(a_hrspay)
 
-regress log_wage a_age cat_edu* cat_industry*
+gen female=0
+replace female=1 if a_sex==2
 
-outsheet log_wage a_age cat_edu* cat_industry* using cpsmar2017.csv, replace comma
+regress log_wage a_age cat_edu* cat_industry* female
+
+outsheet log_wage a_age cat_edu* cat_industry* female using cpsmar2017.csv, replace comma
